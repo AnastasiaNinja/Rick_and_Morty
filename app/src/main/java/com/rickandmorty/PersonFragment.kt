@@ -30,8 +30,11 @@ class PersonFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentMainScreenBinding.inflate(inflater)
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            loadData()
+        }
         return binding.root
     }
 
@@ -39,16 +42,18 @@ class PersonFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRv()
-        loadingData()
+        loadData()
     }
 
-    private fun loadingData() {
+    private fun loadData() {
         lifecycleScope.launch {
             viewModel.listData.collect{ pagingData->
                 characterAdapter.submitData(pagingData)
-
-
+                if (binding.swipeRefreshLayout.isRefreshing) {
+                    binding.swipeRefreshLayout.isRefreshing = false
+                }
             }
+
         }
     }
 

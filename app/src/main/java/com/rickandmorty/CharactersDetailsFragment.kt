@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.rickandmorty.databinding.FragmentCharactersDetailsBinding
 import com.rickandmorty.model.api.ApiService
 import com.rickandmorty.model.api.ResultsCharacters
@@ -43,6 +44,12 @@ class CharactersDetailsFragment : Fragment() {
 
     private fun bindCharacterDetails(details: ResultsCharacters) {
         binding.species.text = details.species
+        binding.name.text = details.name
+        binding.status.text = details.status
+        binding.gender.text = details.gender
+        binding.type.text = details.type
+        binding.created.text = details.created
+
     }
 
     companion object {
