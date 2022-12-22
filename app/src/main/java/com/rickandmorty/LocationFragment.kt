@@ -7,11 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.rickandmorty.databinding.FragmentMainScreenBinding
 import com.rickandmorty.model.adapters.LocationAdapter
-import com.rickandmorty.model.viewmodel.LocationsViewModel
+import com.rickandmorty.model.viewmodel.LocationsPagingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -19,7 +18,7 @@ import kotlinx.coroutines.launch
 class LocationFragment : Fragment() {
     lateinit var binding: FragmentMainScreenBinding
     private lateinit var locationAdapter: LocationAdapter
-    private val viewModel: LocationsViewModel by viewModels()
+    private val viewModel: LocationsPagingViewModel by viewModels()
 
 
 
@@ -35,16 +34,33 @@ class LocationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRv()
-        loadingData()
+        loadData()
 
-        binding.recyclerView.addItemDecoration(DividerItemDecoration(binding.recyclerView.context, DividerItemDecoration.VERTICAL))
-        binding.recyclerView.addItemDecoration(DividerItemDecoration(binding.recyclerView.context, DividerItemDecoration.HORIZONTAL))
     }
 
-    private fun loadingData() {
+    private fun loadData() {
+        val hasArgs = arguments != null
+        binding.progressBar.visibility = View.VISIBLE
         lifecycleScope.launch {
-            viewModel.listData.collect{ pagingData->
-                locationAdapter.submitData(pagingData)
+            if (hasArgs) {
+                val ids = requireArguments().getStringArrayList("ids")
+                viewModel.loadFixedData(ids!!).collect { pagingData->
+                    locationAdapter.submitData(pagingData)
+                    if (binding.swipeRefreshLayout.isRefreshing) {
+                        binding.swipeRefreshLayout.isRefreshing = false
+
+                    }
+                    binding.progressBar.visibility = View.INVISIBLE
+                }
+            } else {
+                viewModel.listData.collect{ pagingData->
+                    locationAdapter.submitData(pagingData)
+                    if (binding.swipeRefreshLayout.isRefreshing) {
+                        binding.swipeRefreshLayout.isRefreshing = false
+
+                    }
+                    binding.progressBar.visibility = View.INVISIBLE
+                }
             }
         }
     }

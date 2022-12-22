@@ -2,18 +2,16 @@ package com.rickandmorty.model.adapters
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.example.ResultsLocation
+import com.rickandmorty.model.api.ResultsLocation
 import com.rickandmorty.LocationDetailsFragment
 import com.rickandmorty.R
 import com.rickandmorty.databinding.FragmentLocationBinding
-import com.rickandmorty.model.api.ResultsEpisode
-import com.rickandmorty.model.locations.entities.Location
+import dagger.hilt.android.internal.managers.ViewComponentManager
 
 class LocationAdapter: PagingDataAdapter <ResultsLocation, LocationAdapter.LocationHolder>(diffCallback) {
 
@@ -24,7 +22,8 @@ class LocationAdapter: PagingDataAdapter <ResultsLocation, LocationAdapter.Locat
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LocationHolder {
-        return LocationHolder(FragmentLocationBinding.inflate(LayoutInflater.from(parent.context),
+        return LocationHolder(FragmentLocationBinding.inflate
+            (LayoutInflater.from(parent.context),
             parent, false
           )
         )
@@ -38,23 +37,23 @@ class LocationAdapter: PagingDataAdapter <ResultsLocation, LocationAdapter.Locat
             locationType.text = "${currentItem?.type}"
             dimension.text = "${currentItem?.dimension}"
         }
-//        holder.bind(locations[position])
-//        holder.itemView.setOnClickListener { view ->
-//            val activity: AppCompatActivity = view.context as AppCompatActivity
-//            val fragment = LocationDetailsFragment()
-//            val bundle = Bundle()
-//            bundle.putParcelable(
-//                LocationDetailsFragment.ARG_LOCATION,
-//            locations[holder.bindingAdapterPosition]
-//            )
-//            fragment.arguments = bundle
-//            var id = R.id.fragment_container_view
-//            //TODO: if(view.context.isTablet()) {}
-//            activity.supportFragmentManager
-//                .beginTransaction()
-//                .replace(id, fragment)
-//                .addToBackStack(null).commit()
-//        }
+
+        holder.itemView.setOnClickListener { view ->
+            val activity = (view.context as ViewComponentManager.FragmentContextWrapper).baseContext as AppCompatActivity
+            val fragment = LocationDetailsFragment()
+            val bundle = Bundle()
+            bundle.putLong(
+                LocationDetailsFragment.ARG_LOCATION_ID,
+            getItem(holder.bindingAdapterPosition)!!.id
+            )
+            fragment.arguments = bundle
+            var id = R.id.fragment_container_view
+            //TODO: if(view.context.isTablet()) {}
+            activity.supportFragmentManager
+                .beginTransaction()
+                .replace(id, fragment)
+                .addToBackStack(null).commit()
+        }
     }
 
     companion object{

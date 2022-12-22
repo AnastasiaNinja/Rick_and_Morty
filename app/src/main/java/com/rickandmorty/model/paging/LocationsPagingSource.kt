@@ -2,7 +2,7 @@ package com.rickandmorty.model.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.example.ResultsLocation
+import com.rickandmorty.model.api.ResultsLocation
 import com.rickandmorty.model.api.ApiService
 
 class LocationsPagingSource(

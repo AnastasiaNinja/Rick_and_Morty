@@ -2,13 +2,16 @@ package com.rickandmorty
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.rickandmorty.databinding.ActivityMainBinding
 import com.rickandmorty.model.adapters.CharacterAdapter
 import com.rickandmorty.model.adapters.EpisodeAdapter
 import com.rickandmorty.model.adapters.LocationAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -26,6 +29,8 @@ class MainActivity : AppCompatActivity() {
         setBottomNavigationView()
 
     }
+
+
 
 
     private fun openFrag(f: Fragment, idHolder: Int) {

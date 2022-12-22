@@ -7,11 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.rickandmorty.databinding.ActivityMainBinding
 import com.rickandmorty.databinding.FragmentMainScreenBinding
 import com.rickandmorty.model.adapters.EpisodeAdapter
-import com.rickandmorty.model.viewmodel.EpisodesViewModel
+import com.rickandmorty.model.viewmodel.EpisodesPagingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 class EpisodeFragment : Fragment() {
    lateinit var binding: FragmentMainScreenBinding
     private lateinit var episodeAdapter: EpisodeAdapter
-    private val viewModel: EpisodesViewModel by viewModels()
+    private val viewModel: EpisodesPagingViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -35,17 +35,35 @@ class EpisodeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRv()
-        loadingData()
+        loadData()
 
 
 
     }
 
-    private fun loadingData() {
+    private fun loadData() {
+        val hasArgs = arguments != null
+        binding.progressBar.visibility = View.VISIBLE
         lifecycleScope.launch {
-            viewModel.listData.collect{ pagingData->
-                episodeAdapter.submitData(pagingData)
+            if (hasArgs) {
+                val ids = requireArguments().getStringArrayList("ids")
+                viewModel.loadFixedData(ids!!).collect { pagingData->
+                    episodeAdapter.submitData(pagingData)
+                    if (binding.swipeRefreshLayout.isRefreshing) {
+                        binding.swipeRefreshLayout.isRefreshing = false
 
+                    }
+                    binding.progressBar.visibility = View.INVISIBLE
+                }
+            } else {
+                viewModel.listData.collect{ pagingData->
+                    episodeAdapter.submitData(pagingData)
+                    if (binding.swipeRefreshLayout.isRefreshing) {
+                        binding.swipeRefreshLayout.isRefreshing = false
+
+                    }
+                    binding.progressBar.visibility = View.INVISIBLE
+                }
             }
         }
     }

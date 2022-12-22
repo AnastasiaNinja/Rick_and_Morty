@@ -13,6 +13,7 @@ import com.rickandmorty.model.api.ApiService
 import com.rickandmorty.model.api.ResultsCharacters
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.io.Serializable
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -38,11 +39,11 @@ class CharactersDetailsFragment : Fragment() {
     private fun loadData() {
         lifecycleScope.launch {
             val responseDetails = apiService.getCharacterDetails(id)
-            bindCharacterDetails(responseDetails.body()!!)
+            handleCharacterDetails(responseDetails.body()!!)
         }
     }
 
-    private fun bindCharacterDetails(details: ResultsCharacters) {
+    private fun handleCharacterDetails(details: ResultsCharacters) {
         binding.species.text = details.species
         binding.name.text = details.name
         binding.status.text = details.status
@@ -50,6 +51,23 @@ class CharactersDetailsFragment : Fragment() {
         binding.type.text = details.type
         binding.created.text = details.created
 
+        if(details.image!!.isNotBlank()) {
+            Glide.with(binding.imageView2.context)
+                .load(details.image)
+                .placeholder(R.drawable.personicon)
+                .error(binding.imageView2)
+                .into(binding.imageView2)
+        } else {
+            binding.imageView2.setImageResource(R.drawable.personicon)
+        }
+
+        val args = Bundle()
+        args.putStringArrayList("ids", details.episode)
+
+        val fragment = EpisodeFragment()
+        fragment.arguments = args
+        parentFragmentManager.beginTransaction()
+            .add(binding.containerEpisodes.id, fragment).commit()
     }
 
     companion object {

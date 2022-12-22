@@ -16,6 +16,7 @@ import dagger.hilt.android.internal.managers.ViewComponentManager.FragmentContex
 
 class CharacterAdapter: PagingDataAdapter<ResultsCharacters, CharacterAdapter.CharacterHolder>(diffCallback) {
 
+    val charactersList: List<String?> = emptyList()
     class CharacterHolder(val binding: FragmentPersonBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -46,7 +47,10 @@ class CharacterAdapter: PagingDataAdapter<ResultsCharacters, CharacterAdapter.Ch
                     .into(imageCharacter)
 
             }
-//
+
+
+
+
         holder.itemView.setOnClickListener { view ->
             val activity = (view.context as FragmentContextWrapper).baseContext as AppCompatActivity
             val fragment = CharactersDetailsFragment()
@@ -62,7 +66,6 @@ class CharacterAdapter: PagingDataAdapter<ResultsCharacters, CharacterAdapter.Ch
                 .replace(id, fragment)
                 .addToBackStack(null).commit()
         }
-
 
     }
 

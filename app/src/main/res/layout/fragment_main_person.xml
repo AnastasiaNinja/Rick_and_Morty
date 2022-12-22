@@ -8,13 +8,51 @@
     android:orientation="vertical"
     android:id="@+id/main_screen">
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/filterLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchName"
+            app:queryHint="Search by name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <Spinner
+            android:id="@+id/statusSpinner"
+            android:layout_width="match_parent"
+            android:spinnerMode="dropdown"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/speciesFilter"
+            android:hint="species"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:inputType="text"/>
+        <EditText
+            android:id="@+id/typeFilter"
+            android:hint="type"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:inputType="text"/>
+        <Spinner
+            android:id="@+id/spinnerGender"
+            android:layout_width="match_parent"
+            android:spinnerMode="dropdown"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/applyFilterButton"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Apply filter"/>
+
+    </LinearLayout>
+
 
     <ProgressBar
         android:id="@+id/progress_bar"
@@ -33,8 +71,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/searchView"
-        app:layout_constraintTop_toBottomOf="@id/searchView">
+        app:layout_constraintStart_toStartOf="@id/filterLayout"
+        app:layout_constraintTop_toBottomOf="@id/filterLayout">
 
 
 

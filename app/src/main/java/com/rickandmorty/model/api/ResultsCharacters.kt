@@ -13,6 +13,8 @@ data class ResultsCharacters (
   @SerializedName("image"    ) var image    : String?           = null,
   @SerializedName("episode"  ) var episode  : ArrayList<String> = arrayListOf(),
   @SerializedName("url"      ) var url      : String?           = null,
-  @SerializedName("created"  ) var created  : String?           = null
+  @SerializedName("created"  ) var created  : String?           = null,
+  @SerializedName("location" ) var location : Any?,
+  @SerializedName("origin"   ) var origin   : Any?
 
 )
