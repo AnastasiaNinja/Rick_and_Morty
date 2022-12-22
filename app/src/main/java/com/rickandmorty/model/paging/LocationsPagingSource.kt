@@ -4,9 +4,12 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.rickandmorty.model.api.ResultsLocation
 import com.rickandmorty.model.api.ApiService
+import com.rickandmorty.model.api.CharacterFilterParams
+import com.rickandmorty.model.api.LocationFilterParams
 
 class LocationsPagingSource(
-    private val apiService: ApiService
+    private val apiService: ApiService,
+    private val filter: LocationFilterParams
     ): PagingSource<Int, ResultsLocation>() {
         override fun getRefreshKey(state: PagingState<Int, ResultsLocation>): Int? {
             return null
@@ -16,7 +19,12 @@ class LocationsPagingSource(
 
             return try{
                 val currentPage = params.key ?: 1
-                val response = apiService.getAllLocations(currentPage)
+                val response = apiService.getAllLocations(
+                    page = currentPage, name = filter.name,
+                    type = filter.type, dimension = filter.dimension
+                )
+
+
                 val data = response.body()?.results?: emptyList()
                 val responseData = mutableListOf<ResultsLocation>()
                 responseData.addAll(data)

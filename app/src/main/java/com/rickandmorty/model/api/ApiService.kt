@@ -20,12 +20,17 @@ interface ApiService {
 
     @GET(Constants.END_POINT_EPISODE)
     suspend fun getAllEpisodes(
-        @Query("page") page: Int
+        @Query("page") page: Int,
+        @Query("name") name: String? = null,
+        @Query("episode") episode: String? = null,
     ): Response<ResponseApiEpisode>
 
     @GET(Constants.END_POINT_LOCATION)
     suspend fun getAllLocations(
-         @Query("page") page: Int
+         @Query("page") page: Int,
+         @Query("name") name: String? = null,
+         @Query("type") type: String? = null,
+         @Query("dimension") dimension: String? = null,
     ): Response<ResponseApiLocation>
 
     @GET(Constants.END_POINT_CHARACTER_DETAILS)

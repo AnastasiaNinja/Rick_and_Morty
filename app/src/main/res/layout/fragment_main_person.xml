@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <androidx.constraintlayout.widget.ConstraintLayout
 
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -7,51 +9,71 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/main_screen">
-
-    <LinearLayout
+    <androidx.cardview.widget.CardView
+        android:id = "@+id/filter_card"
+        android:layout_margin="5dp"
+        android:layout_marginEnd="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/filterLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/searchName"
-            app:queryHint="Search by name"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <Spinner
-            android:id="@+id/statusSpinner"
-            android:layout_width="match_parent"
-            android:spinnerMode="dropdown"
-            android:layout_height="wrap_content"/>
-
-        <EditText
-            android:id="@+id/speciesFilter"
-            android:hint="species"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:inputType="text"/>
-        <EditText
-            android:id="@+id/typeFilter"
-            android:hint="type"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:inputType="text"/>
-        <Spinner
-            android:id="@+id/spinnerGender"
-            android:layout_width="match_parent"
-            android:spinnerMode="dropdown"
-            android:layout_height="wrap_content"/>
-        <Button
-            android:id="@+id/applyFilterButton"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="Apply filter"/>
+            android:orientation="vertical"
+            android:id="@+id/filterLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchName"
+                app:queryHint="Search by name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Spinner
+                    android:id="@+id/statusSpinner"
+                    android:layout_width="wrap_content"
+                    android:spinnerMode="dropdown"
+                    android:layout_height="wrap_content"/>
+                <Spinner
+                    android:id="@+id/spinnerGender"
+                    android:layout_width="wrap_content"
+                    android:spinnerMode="dropdown"
+                    android:layout_height="wrap_content"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </LinearLayout>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/speciesFilter"
+                    android:hint="species"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:inputType="text"/>
+                <EditText
+                    android:id="@+id/typeFilter"
+                    android:hint="type"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:inputType="text"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <Button
+                android:id="@+id/applyFilterButton"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Apply filter"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
 
     <ProgressBar
@@ -71,12 +93,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/filterLayout"
-        app:layout_constraintTop_toBottomOf="@id/filterLayout">
-
-
-
-
+        app:layout_constraintStart_toStartOf="@id/filter_card"
+        app:layout_constraintTop_toBottomOf="@id/filter_card">
 
 
 
@@ -93,11 +111,5 @@
             app:layout_constraintStart_toStartOf="parent" />
 
 
-
-
-
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
