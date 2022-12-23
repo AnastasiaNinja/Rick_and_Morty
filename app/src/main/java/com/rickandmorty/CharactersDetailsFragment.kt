@@ -55,6 +55,7 @@ class CharactersDetailsFragment : Fragment() {
             Glide.with(binding.imageView2.context)
                 .load(details.image)
                 .placeholder(R.drawable.personicon)
+                .circleCrop()
                 .error(binding.imageView2)
                 .into(binding.imageView2)
         } else {

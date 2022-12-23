@@ -6,7 +6,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/main_screen_episode">
+    android:id="@+id/main_screen_episode"
+    android:background="@color/black">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:visibility="visible"
+        android:foregroundGravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/grey"
+        app:cardCornerRadius="5dp"
+        android:layout_marginBottom="15dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,14 +35,25 @@
             android:id="@+id/searchName"
             app:queryHint="Search by name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@color/grey"
+            app:searchIcon="@drawable/ic_baseline_search_24"
+            app:iconifiedByDefault="false"
+
+            />
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchCode"
             app:queryHint="Search by code"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@color/grey"
+            app:searchIcon="@drawable/ic_baseline_search_24"
+            app:iconifiedByDefault="false"
+            />
+
 
     </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 
     <ProgressBar
